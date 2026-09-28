@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piyasa360 | Canlı Döviz & Altın Takip Portalı</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Üst Bilgi Akış Bandı (Ticker) -->
+    <div class="ticker-wrap">
+        <div class="ticker" id="top-ticker">
+            <div class="ticker-item"><i class="fa-solid fa-sync fa-spin"></i> Canlı piyasa verileri yükleniyor...</div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Piyasa<b>360</b></span>
+        </div>
+        <div class="header-status">
+            <span class="live-indicator"><span class="blink-dot"></span> CANLI PIYASA</span>
+            <div class="clock-box">
+                <i class="fa-regular fa-clock"></i>
+                <span id="live-clock">00:00:00</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Grid Layout -->
+    <div class="main-container">
+        
+        <!-- Sol & Orta Bölüm: Canlı Kartlar, Grafik ve Detaylar -->
+        <main class="content-left">
+            
+            <!-- Canlı Fiyat Kartları Grid -->
+            <section class="cards-grid" id="cards-container">
+                <!-- JavaScript dinamik kartları buraya basacak -->
+            </section>
+
+            <!-- Profesyonel Canlı Grafik & Analiz Paneli -->
+            <section class="chart-section">
+                <div class="chart-header">
+                    <div class="chart-title">
+                        <i class="fa-solid fa-chart-candlestick"></i>
+                        <h2 id="selected-asset-title">USD/TRY - Canlı Teknik Analiz Grafiği</h2>
+                    </div>
+                    <div class="chart-controls">
+                        <button class="btn-asset active" onclick="switchAsset('USDTRY')">USD</button>
+                        <button class="btn-asset" onclick="switchAsset('EURTRY')">EUR</button>
+                        <button class="btn-asset" onclick="switchAsset('GAUTRY')">GRAM ALTIN</button>
+                        <button class="btn-asset" onclick="switchAsset('BTCUSD')">BTC</button>
+                    </div>
+                </div>
+                <!-- TradingView Canlı Grafik Embed -->
+                <div class="tradingview-widget-container" id="tv-chart-container">
+                    <div id="tradingview_chart"></div>
+                </div>
+            </section>
+
+            <!-- Piyasa Özeti & Yüzdesel Değişim Tablosu -->
+            <section class="market-table-section">
+                <h3><i class="fa-solid fa-list"></i> Anlık Piyasa Özeti</h3>
+                <table class="market-table">
+                    <thead>
+                        <tr>
+                            <th>Varlık</th>
+                            <th>Alış</th>
+                            <th>Satış</th>
+                            <th>En Yüksek</th>
+                            <th>En Düşük</th>
+                            <th>24s Değişim</th>
+                        </tr>
+                    </thead>
+                    <tbody id="market-table-body">
+                        <!-- JS ile dolacak -->
+                    </tbody>
+                </table>
+            </section>
+
+        </main>
+
+        <!-- Sağ Bölüm: SABİT HESAP MAKİNESİ VE ÇEVİRİCİ PANELİ -->
+        <aside class="sidebar-right">
+            
+            <!-- Sabit Hesap Makinesi & Çevirici Kutusu -->
+            <div class="sticky-calculator-card">
+                
+                <div class="calc-tabs">
+                    <button class="calc-tab active" onclick="switchCalcTab('convert')"><i class="fa-solid fa-repeat"></i> Hızlı Çevirici</button>
+                    <button class="calc-tab" onclick="switchCalcTab('classic')"><i class="fa-solid fa-calculator"></i> Hesap Makinesi</button>
+                </div>
+
+                <!-- TAB 1: Döviz & Altın Çevirici -->
+                <div id="tab-convert" class="tab-content active">
+                    <h4>Canlı Döviz / Altın Çevirici</h4>
+                    
+                    <div class="input-group">
+                        <label>Miktar</label>
+                        <input type="number" id="convert-amount" value="100" oninput="calculateConversion()">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Çevrilen Birim</label>
+                        <select id="convert-from" onchange="calculateConversion()">
+                            <option value="USD">Amerikan Doları (USD)</option>
+                            <option value="EUR">Euro (EUR)</option>
+                            <option value="GBP">İngiliz Sterlini (GBP)</option>
+                            <option value="GAU">Gram Altın (GRAM)</option>
+                            <option value="CEY">Çeyrek Altın (ÇEY)</option>
+                            <option value="TRY" selected>Türk Lirası (TRY)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Hedef Birim</label>
+                        <select id="convert-to" onchange="calculateConversion()">
+                            <option value="TRY" selected>Türk Lirası (TRY)</option>
+                            <option value="USD">Amerikan Doları (USD)</option>
+                            <option value="EUR">Euro (EUR)</option>
+                            <option value="GBP">İngiliz Sterlini (GBP)</option>
+                            <option value="GAU">Gram Altın (GRAM)</option>
+                            <option value="CEY">Çeyrek Altın (ÇEY)</option>
+                        </select>
+                    </div>
+
+                    <div class="calc-result-box">
+                        <span>Hesaplanan Tutar:</span>
+                        <strong id="convert-result">0.00 TRY</strong>
+                    </div>
+                </div>
+
+                <!-- TAB 2: Klasik Dört İşlem Hesap Makinesi -->
+                <div id="tab-classic" class="tab-content">
+                    <h4>Dört İşlem Hesaplayıcı</h4>
+                    <div class="calc-screen">
+                        <div class="calc-history" id="calc-history"></div>
+                        <div class="calc-display" id="calc-display">0</div>
+                    </div>
+                    <div class="calc-buttons">
+                        <button onclick="calcClear()" class="btn-cmd">C</button>
+                        <button onclick="calcBackspace()" class="btn-cmd"><i class="fa-solid fa-backspace"></i></button>
+                        <button onclick="calcOp('/')" class="btn-op">÷</button>
+                        <button onclick="calcOp('*')" class="btn-op">×</button>
+
+                        <button onclick="calcNum('7')">7</button>
+                        <button onclick="calcNum('8')">8</button>
+                        <button onclick="calcNum('9')">9</button>
+                        <button onclick="calcOp('-')" class="btn-op">-</button>
+
+                        <button onclick="calcNum('4')">4</button>
+                        <button onclick="calcNum('5')">5</button>
+                        <button onclick="calcNum('6')">6</button>
+                        <button onclick="calcOp('+')" class="btn-op">+</button>
+
+                        <button onclick="calcNum('1')">1</button>
+                        <button onclick="calcNum('2')">2</button>
+                        <button onclick="calcNum('3')">3</button>
+                        <button onclick="calcEqual()" class="btn-equal span-2-row">=</button>
+
+                        <button onclick="calcNum('0')" class="span-2-col">0</button>
+                        <button onclick="calcNum('.')">.</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Sağ Panel Alt Bilgi / Piyasa Durumu -->
+            <div class="sidebar-info-box">
+                <p><i class="fa-solid fa-shield-halved"></i> Veriler anlık banka ve serbest piyasa ortalamaları üzerinden canlı güncellenmektedir.</p>
+            </div>
+
+        </aside>
+
+    </div>
+
+    <!-- Scriptler -->
+    <script src="https://s3.tradingview.com/tv.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

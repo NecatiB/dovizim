@@ -1,0 +1,468 @@
+:root {
+    --bg-dark: #0a0e17;
+    --card-bg: #131b2e;
+    --card-border: #1e293b;
+    --accent-blue: #2563eb;
+    --text-primary: #f8fafc;
+    --text-muted: #94a3b8;
+    --green-up: #10b981;
+    --red-down: #ef4444;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    overflow-x: hidden;
+}
+
+/* Üst Bant (Ticker) */
+.ticker-wrap {
+    width: 100%;
+    background: #060911;
+    border-bottom: 1px solid var(--card-border);
+    padding: 8px 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.ticker {
+    display: inline-block;
+    padding-left: 100%;
+    animation: ticker 35s linear infinite;
+}
+
+@keyframes ticker {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-100%, 0, 0); }
+}
+
+.ticker-item {
+    display: inline-block;
+    padding: 0 20px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.ticker-item span {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Header */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--card-border);
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-blue);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo span {
+    color: var(--text-primary);
+}
+
+.logo b {
+    color: var(--accent-blue);
+}
+
+.header-status {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 0.9rem;
+}
+
+.live-indicator {
+    color: var(--green-up);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.blink-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--green-up);
+    border-radius: 50%;
+    animation: blink 1s infinite alternate;
+}
+
+@keyframes blink {
+    from { opacity: 0.3; }
+    to { opacity: 1; }
+}
+
+.clock-box {
+    background: #0f172a;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--card-border);
+    color: var(--text-muted);
+}
+
+/* Main Layout */
+.main-container {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 20px;
+    max-width: 1600px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+/* Sol İçerik */
+.content-left {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Canlı Kartlar Grid */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 15px;
+}
+
+.market-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 15px;
+    transition: transform 0.2s, border-color 0.2s;
+    cursor: pointer;
+}
+
+.market-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-blue);
+}
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.card-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.card-badge {
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.badge-up { background: rgba(16, 185, 129, 0.15); color: var(--green-up); }
+.badge-down { background: rgba(239, 68, 68, 0.15); color: var(--red-down); }
+
+.card-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.card-sub {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Grafik Alanı (Mıknatıs simgesine ve sol menüye tam oturması için 720px yapıldı) */
+.chart-section {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.chart-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--accent-blue);
+}
+
+.chart-title h2 {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+.chart-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-asset {
+    background: #0f172a;
+    border: 1px solid var(--card-border);
+    color: var(--text-muted);
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.btn-asset.active, .btn-asset:hover {
+    background: var(--accent-blue);
+    color: white;
+    border-color: var(--accent-blue);
+}
+
+/* SOL MENÜDEKİ MIKNATIS VE TERS MIKNATIS SİMGELERİNE BİREBİR HİZALANAN YÜKSEKLİK: 720PX */
+.tradingview-widget-container {
+    height: 720px !important;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+}
+
+#tradingview_chart {
+    height: 100% !important;
+    width: 100% !important;
+}
+
+#tradingview_chart iframe {
+    height: 100% !important;
+    width: 100% !important;
+}
+
+/* Tablo */
+.market-table-section {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.market-table-section h3 {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.market-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.market-table th, .market-table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.market-table th {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Sağ Panel (SABİT HESAP MAKİNESİ) */
+.sidebar-right {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sticky-calculator-card {
+    position: sticky;
+    top: 20px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.calc-tabs {
+    display: flex;
+    gap: 5px;
+    background: #0f172a;
+    padding: 4px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.calc-tab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 8px 5px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.calc-tab.active {
+    background: var(--accent-blue);
+    color: white;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-content h4 {
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    color: var(--text-muted);
+}
+
+.input-group {
+    margin-bottom: 12px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+}
+
+.input-group input, .input-group select {
+    width: 100%;
+    padding: 10px;
+    background: #0f172a;
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    color: white;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.input-group input:focus, .input-group select:focus {
+    border-color: var(--accent-blue);
+}
+
+.calc-result-box {
+    background: #0f172a;
+    border: 1px dashed var(--accent-blue);
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.calc-result-box span {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.calc-result-box strong {
+    font-size: 1.2rem;
+    color: var(--green-up);
+}
+
+/* Klasik Hesap Makinesi Tuşları */
+.calc-screen {
+    background: #0f172a;
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 10px;
+    text-align: right;
+    margin-bottom: 12px;
+}
+
+.calc-history {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    min-height: 15px;
+}
+
+.calc-display {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.calc-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.calc-buttons button {
+    padding: 12px;
+    background: #0f172a;
+    border: 1px solid var(--card-border);
+    color: white;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.calc-buttons button:hover {
+    background: #1e293b;
+}
+
+.btn-op { color: #f59e0b !important; }
+.btn-cmd { color: var(--red-down) !important; }
+.btn-equal { background: var(--accent-blue) !important; color: white; }
+.span-2-row { grid-row: span 2; display: flex; align-items: center; justify-content: center; }
+.span-2-col { grid-column: span 2; }
+
+.sidebar-info-box {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Mobil Uyumluluk */
+@media (max-width: 992px) {
+    .main-container {
+        grid-template-columns: 1fr;
+    }
+    .sticky-calculator-card {
+        position: relative;
+        top: 0;
+    }
+    .tradingview-widget-container {
+        height: 520px !important;
+    }
+}
